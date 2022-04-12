@@ -9,12 +9,11 @@ namespace DVGB07_viktlund104_Laboration4_Store
 		private StockControl stock;
 		private SalesControl sales;
 		
-		
 		// Constructor
 		public MainForm()
 		{
 			InitializeComponent();
-			
+
 			db = new WebReader();
 			db.Load();
 		}
@@ -31,7 +30,7 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			stock = new StockControl(db, this);
 			stockTab.Dock = DockStyle.Fill;
 			stockTab.Controls.Add(stock);
-			
+
 			// Add SalesControl to sales tab in MainForm
 			sales = new SalesControl(db, this);
 			salesTab.Dock = DockStyle.Fill;
@@ -44,11 +43,13 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			//db.Save();
 		}
 
+		// Will resync data in the sales tab
 		public void UpdateSalesControl()
 		{
 			sales.SyncSales();
 		}
 
+		// Will resync data in the stock tab
 		public void UpdateStockControl()
 		{
 			stock.SyncStock();

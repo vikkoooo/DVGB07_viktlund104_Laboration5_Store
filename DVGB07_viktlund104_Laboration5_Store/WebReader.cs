@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
+using System.Net.Mime;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -9,20 +10,20 @@ namespace DVGB07_viktlund104_Laboration4_Store
 {
 	public class WebReader
 	{
-		// read from web 
+		// Read from web 
 		private WebClient client;
 		private XmlDocument document;
 
-		// store locally after startup
+		// Store locally after startup
 		public BindingList<Book> BookList { get; private set; }
 		public BindingList<Game> GameList { get; private set; }
 		public BindingList<Movie> MovieList { get; private set; }
 		
-		
+		// To handle id
 		public static int lastId;
 		private List<int> ids;
 
-
+		// Constructor
 		public WebReader()
 		{
 			BookList = new BindingList<Book>();
@@ -32,41 +33,55 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			client = new WebClient();
 			ids = new List<int>();
 		}
-		
+
+		// Reads data from web and shows error messages if something goes wrong with the api
 		public void Load()
 		{
+			// Make api call
 			try
 			{
 				var text = client.DownloadString("https://hex.cse.kau.se/~jonavest/csharp-api");
 				document = new XmlDocument();
 				document.LoadXml(text);
+
+				// response contains error body, means api failed
+				if (document.FirstChild.FirstChild.Name == "error")
+				{
+					MessageBox.Show(document.FirstChild.FirstChild.InnerText, "Error", MessageBoxButtons.OK,
+						MessageBoxIcon.Error);
+				}
 			}
+			// Our connection to api failed or something else
 			catch (Exception e)
 			{
 				MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			
+
+			// Clear old
 			ids.Clear();
 			BookList.Clear();
 			GameList.Clear();
 			MovieList.Clear();
+			
+			// Load new
 			LoadBooks();
 			LoadGames();
 			LoadMovies();
 			LoadId();
 		}
-		
+
+		// Loads only books
 		private void LoadBooks()
 		{
 			var root = document.FirstChild;
 			var products = root["products"];
-			
+
 			foreach (XmlElement entry in products.ChildNodes)
 			{
 				if (entry.Name == "book")
 				{
 					var book = new Book(0);
-				
+
 					foreach (XmlElement node in entry.ChildNodes)
 					{
 						if (node.Name == "stock")
@@ -76,7 +91,7 @@ namespace DVGB07_viktlund104_Laboration4_Store
 							book.Id = int.Parse(node.InnerText);
 							ids.Add(book.Id);
 						}
-							
+
 						if (node.Name == "name")
 							book.Name = node.InnerText;
 						if (node.Name == "price")
@@ -90,11 +105,13 @@ namespace DVGB07_viktlund104_Laboration4_Store
 						if (node.Name == "language")
 							book.Language = node.InnerText;
 					}
+
 					BookList.Add(book);
 				}
 			}
 		}
-		
+
+		// Loads only games
 		private void LoadGames()
 		{
 			var root = document.FirstChild;
@@ -105,7 +122,7 @@ namespace DVGB07_viktlund104_Laboration4_Store
 				if (entry.Name == "game")
 				{
 					var game = new Game(0);
-				
+
 					foreach (XmlElement node in entry.ChildNodes)
 					{
 						if (node.Name == "stock")
@@ -115,6 +132,7 @@ namespace DVGB07_viktlund104_Laboration4_Store
 							game.Id = int.Parse(node.InnerText);
 							ids.Add(game.Id);
 						}
+
 						if (node.Name == "name")
 							game.Name = node.InnerText;
 						if (node.Name == "price")
@@ -122,11 +140,13 @@ namespace DVGB07_viktlund104_Laboration4_Store
 						if (node.Name == "platform")
 							game.Platform = node.InnerText;
 					}
+
 					GameList.Add(game);
 				}
 			}
 		}
-		
+
+		// Loads only movies
 		private void LoadMovies()
 		{
 			var root = document.FirstChild;
@@ -137,7 +157,7 @@ namespace DVGB07_viktlund104_Laboration4_Store
 				if (entry.Name == "movie")
 				{
 					var movie = new Movie(0);
-				
+
 					foreach (XmlElement node in entry.ChildNodes)
 					{
 						if (node.Name == "stock")
@@ -147,6 +167,7 @@ namespace DVGB07_viktlund104_Laboration4_Store
 							movie.Id = int.Parse(node.InnerText);
 							ids.Add(movie.Id);
 						}
+
 						if (node.Name == "name")
 							movie.Name = node.InnerText;
 						if (node.Name == "price")
@@ -156,16 +177,17 @@ namespace DVGB07_viktlund104_Laboration4_Store
 						if (node.Name == "playtime")
 							movie.PlayingTime = int.Parse(node.InnerText);
 					}
+
 					MovieList.Add(movie);
 				}
 			}
 		}
 		
-
+		// Loads last id
 		private void LoadId()
 		{
 			int current = 0;
-			
+
 			foreach (var e in ids)
 			{
 				if (e > current)
@@ -178,7 +200,4 @@ namespace DVGB07_viktlund104_Laboration4_Store
 		}
 		
 	}
-	
-	
-
 }

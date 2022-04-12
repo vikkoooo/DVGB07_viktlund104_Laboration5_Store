@@ -11,11 +11,9 @@ namespace DVGB07_viktlund104_Laboration4_Store
 		private Game selectedGame;
 		private Movie selectedMovie;
 		private Dictionary<int, int> shipmentList; // Key is ID, value is quantity
-		
-		// Database reference
-		private WebReader db;
-		
-		// Reference to MainForm (which has references to the correct instances of SalesControl and StockControl
+		private WebReader db; // Database reference
+
+		// Reference to MainForm (which has references to the instances of SalesControl and StockControl)
 		private MainForm mainForm;
 
 		// Constructor initializes our components and data
@@ -80,6 +78,12 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			}
 
 			return false;
+		}
+
+		// Syncing data in stock tab
+		public void SyncStock()
+		{
+			db.Load();
 		}
 
 		/*
@@ -276,7 +280,7 @@ namespace DVGB07_viktlund104_Laboration4_Store
 
 			UpdateShippingUI();
 		}
-		
+
 		private void cancelProductShipmentButton_Click(object sender, EventArgs e)
 		{
 			itemIdShipmentTextBox.Text = "";
@@ -326,24 +330,18 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			shipmentListBox.Items.Clear();
 			shipmentList.Clear();
 		}
-		
+
 		private void clearShipmentButton_Click(object sender, EventArgs e)
 		{
 			shipmentListBox.Items.Clear();
 			shipmentList.Clear();
 		}
 
+		// Request sync of data in both tabs
 		private void syncButton_Click(object sender, EventArgs e)
 		{
 			mainForm.UpdateStockControl();
 			mainForm.UpdateSalesControl();
 		}
-		
-		public void SyncStock()
-		{
-			db.Load();
-		}
-		
-
 	}
 }

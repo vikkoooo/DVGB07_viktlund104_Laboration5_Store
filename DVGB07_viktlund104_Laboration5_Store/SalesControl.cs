@@ -10,11 +10,9 @@ namespace DVGB07_viktlund104_Laboration4_Store
 		private BindingSource bookTempSource, gameTempSource, movieTempSource;
 		private Dictionary<int, int> shoppingCartList; // Key is ID, value is quantity
 		private double totalPrice;
-		
-		// Database reference
-		private WebReader db;
-		
-		// Reference to MainForm (which has references to the correct instances of SalesControl and StockControl
+		private WebReader db; // Database reference
+
+		// Reference to MainForm (which has references to the instances of SalesControl and StockControl)
 		private MainForm mainForm;
 
 		// Constructor initializes our components and data
@@ -211,6 +209,24 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			return false;
 		}
 
+		// Syncing data in sales tab
+		public void SyncSales()
+		{
+			db.Load();
+
+			bookTempSource.Clear();
+			bookTempSource = AddBooksWithQuantity(bookSource);
+			bookDataGridView.DataSource = bookTempSource;
+
+			gameTempSource.Clear();
+			gameTempSource = AddGamesWithQuantity(gameSource);
+			gameDataGridView.DataSource = gameTempSource;
+
+			movieTempSource.Clear();
+			movieTempSource = AddMoviesWithQuantity(movieSource);
+			movieDataGridView.DataSource = movieTempSource;
+		}
+
 		/*
 		 * EVENTS
 		 */
@@ -345,27 +361,11 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			currentPriceLabel.Text = "";
 		}
 
+		// Request sync of data in both tabs
 		private void syncButton_Click(object sender, EventArgs e)
 		{
 			mainForm.UpdateStockControl();
 			mainForm.UpdateSalesControl();
-		}
-
-		public void SyncSales()
-		{
-			db.Load();
-			
-			bookTempSource.Clear();
-			bookTempSource = AddBooksWithQuantity(bookSource);
-			bookDataGridView.DataSource = bookTempSource;
-			
-			gameTempSource.Clear();
-			gameTempSource = AddGamesWithQuantity(gameSource);
-			gameDataGridView.DataSource = gameTempSource;
-			
-			movieTempSource.Clear();
-			movieTempSource = AddMoviesWithQuantity(movieSource);
-			movieDataGridView.DataSource = movieTempSource;
 		}
 	}
 }
