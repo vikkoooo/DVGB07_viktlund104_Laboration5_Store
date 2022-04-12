@@ -71,7 +71,6 @@
           <DependentUpon>NewBookForm.cs</DependentUpon>
         </Compile>
         <Compile Include="Book.cs" />
-        <Compile Include="FileHandler.cs" />
         <Compile Include="Game.cs" />
         <Compile Include="IMedia.cs" />
         <Compile Include="MainForm.cs">
@@ -107,6 +106,7 @@
         <Compile Include="StockControl.Designer.cs">
           <DependentUpon>StockControl.cs</DependentUpon>
         </Compile>
+        <Compile Include="WebReader.cs" />
         <EmbeddedResource Include="EditBookForm.resx">
           <DependentUpon>EditBookForm.cs</DependentUpon>
         </EmbeddedResource>

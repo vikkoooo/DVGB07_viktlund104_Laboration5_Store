@@ -5,15 +5,17 @@ namespace DVGB07_viktlund104_Laboration4_Store
 {
 	public partial class MainForm : Form
 	{
-		private FileHandler db;
+		private WebReader db;
+		private StockControl stock;
+		private SalesControl sales;
+		
 		
 		// Constructor
 		public MainForm()
 		{
 			InitializeComponent();
 			
-			// Initialize our FileHandling
-			db = new FileHandler();
+			db = new WebReader();
 			db.Load();
 		}
 
@@ -26,12 +28,12 @@ namespace DVGB07_viktlund104_Laboration4_Store
 		private void MainForm_Load(object sender, EventArgs e)
 		{
 			// Add StockControl to stock tab in MainForm
-			StockControl stock = new StockControl(db);
+			stock = new StockControl(db, this);
 			stockTab.Dock = DockStyle.Fill;
 			stockTab.Controls.Add(stock);
 			
 			// Add SalesControl to sales tab in MainForm
-			SalesControl sales = new SalesControl(db);
+			sales = new SalesControl(db, this);
 			salesTab.Dock = DockStyle.Fill;
 			salesTab.Controls.Add(sales);
 		}
@@ -39,7 +41,17 @@ namespace DVGB07_viktlund104_Laboration4_Store
 		// Event will be triggered every time the program closes. In other words, save on exit.
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			db.Save();
+			//db.Save();
+		}
+
+		public void UpdateSalesControl()
+		{
+			sales.SyncSales();
+		}
+
+		public void UpdateStockControl()
+		{
+			stock.SyncStock();
 		}
 	}
 }

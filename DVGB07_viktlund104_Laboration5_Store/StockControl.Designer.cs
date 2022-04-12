@@ -56,6 +56,7 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			this.addProductShipmentButton = new System.Windows.Forms.Button();
 			this.finalizeShipmentButton = new System.Windows.Forms.Button();
 			this.stockSplitContainer = new System.Windows.Forms.SplitContainer();
+			this.syncButton = new System.Windows.Forms.Button();
 			this.clearShipmentButton = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize) (this.bookDataGridView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize) (this.gameDataGridView)).BeginInit();
@@ -340,6 +341,7 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			// 
 			// stockSplitContainer.Panel2
 			// 
+			this.stockSplitContainer.Panel2.Controls.Add(this.syncButton);
 			this.stockSplitContainer.Panel2.Controls.Add(this.clearShipmentButton);
 			this.stockSplitContainer.Panel2.Controls.Add(this.addShipmentLabel);
 			this.stockSplitContainer.Panel2.Controls.Add(this.finalizeShipmentButton);
@@ -353,6 +355,16 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			this.stockSplitContainer.Size = new System.Drawing.Size(1032, 656);
 			this.stockSplitContainer.SplitterDistance = 860;
 			this.stockSplitContainer.TabIndex = 100;
+			// 
+			// syncButton
+			// 
+			this.syncButton.Location = new System.Drawing.Point(57, 626);
+			this.syncButton.Name = "syncButton";
+			this.syncButton.Size = new System.Drawing.Size(100, 23);
+			this.syncButton.TabIndex = 101;
+			this.syncButton.Text = "Resync Data";
+			this.syncButton.UseVisualStyleBackColor = true;
+			this.syncButton.Click += new System.EventHandler(this.syncButton_Click);
 			// 
 			// clearShipmentButton
 			// 
@@ -382,6 +394,8 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			this.stockSplitContainer.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+
+		private System.Windows.Forms.Button syncButton;
 
 		private System.Windows.Forms.Button clearShipmentButton;
 

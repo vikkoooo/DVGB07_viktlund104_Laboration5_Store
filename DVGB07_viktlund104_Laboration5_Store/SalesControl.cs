@@ -10,13 +10,21 @@ namespace DVGB07_viktlund104_Laboration4_Store
 		private BindingSource bookTempSource, gameTempSource, movieTempSource;
 		private Dictionary<int, int> shoppingCartList; // Key is ID, value is quantity
 		private double totalPrice;
+		
+		// Database reference
+		private WebReader db;
+		
+		// Reference to MainForm (which has references to the correct instances of SalesControl and StockControl
+		private MainForm mainForm;
 
 		// Constructor initializes our components and data
-		public SalesControl(FileHandler db)
+		public SalesControl(WebReader db, MainForm mainForm)
 		{
 			InitializeComponent();
 			shoppingCartList = new Dictionary<int, int>();
 			totalPrice = 0;
+			this.db = db;
+			this.mainForm = mainForm;
 
 			// Initialize our BindingSources to GridViews
 			bookSource = new BindingSource();
@@ -335,6 +343,29 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			shoppingCartList.Clear();
 			totalPrice = 0;
 			currentPriceLabel.Text = "";
+		}
+
+		private void syncButton_Click(object sender, EventArgs e)
+		{
+			mainForm.UpdateStockControl();
+			mainForm.UpdateSalesControl();
+		}
+
+		public void SyncSales()
+		{
+			db.Load();
+			
+			bookTempSource.Clear();
+			bookTempSource = AddBooksWithQuantity(bookSource);
+			bookDataGridView.DataSource = bookTempSource;
+			
+			gameTempSource.Clear();
+			gameTempSource = AddGamesWithQuantity(gameSource);
+			gameDataGridView.DataSource = gameTempSource;
+			
+			movieTempSource.Clear();
+			movieTempSource = AddMoviesWithQuantity(movieSource);
+			movieDataGridView.DataSource = movieTempSource;
 		}
 	}
 }

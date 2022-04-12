@@ -15,8 +15,8 @@
 		public Game()
 		{
 			// Get unique ID
-			Id = FileHandler.IdGenerator;
-			FileHandler.IdGenerator++;
+			WebReader.lastId++;
+			Id = WebReader.lastId;
 		}
 
 		// This constructor will be used when loading from file and want to assign ID ourselves

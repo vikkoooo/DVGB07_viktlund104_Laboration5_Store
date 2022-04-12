@@ -49,6 +49,7 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			this.currentPriceLabel = new System.Windows.Forms.Label();
 			this.emptyShoppingCartButton = new System.Windows.Forms.Button();
 			this.salesSplitContainer = new System.Windows.Forms.SplitContainer();
+			this.syncButton = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize) (this.movieDataGridView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize) (this.gameDataGridView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize) (this.bookDataGridView)).BeginInit();
@@ -248,6 +249,7 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			// 
 			// salesSplitContainer.Panel2
 			// 
+			this.salesSplitContainer.Panel2.Controls.Add(this.syncButton);
 			this.salesSplitContainer.Panel2.Controls.Add(this.shoppingCartLabel);
 			this.salesSplitContainer.Panel2.Controls.Add(this.currentPriceLabel);
 			this.salesSplitContainer.Panel2.Controls.Add(this.shoppingCartListBox);
@@ -259,9 +261,19 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			this.salesSplitContainer.Panel2.Controls.Add(this.itemIdShoppingCartTextBox);
 			this.salesSplitContainer.Panel2.Controls.Add(this.cancelProductShoppingCartButton);
 			this.salesSplitContainer.Panel2.Controls.Add(this.quantityShoppingCartTextBox);
-			this.salesSplitContainer.Size = new System.Drawing.Size(1041, 645);
+			this.salesSplitContainer.Size = new System.Drawing.Size(1041, 656);
 			this.salesSplitContainer.SplitterDistance = 860;
 			this.salesSplitContainer.TabIndex = 100;
+			// 
+			// syncButton
+			// 
+			this.syncButton.Location = new System.Drawing.Point(57, 626);
+			this.syncButton.Name = "syncButton";
+			this.syncButton.Size = new System.Drawing.Size(100, 23);
+			this.syncButton.TabIndex = 102;
+			this.syncButton.Text = "Resync Data";
+			this.syncButton.UseVisualStyleBackColor = true;
+			this.syncButton.Click += new System.EventHandler(this.syncButton_Click);
 			// 
 			// SalesControl
 			// 
@@ -269,7 +281,7 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.salesSplitContainer);
 			this.Name = "SalesControl";
-			this.Size = new System.Drawing.Size(1041, 645);
+			this.Size = new System.Drawing.Size(1041, 656);
 			((System.ComponentModel.ISupportInitialize) (this.movieDataGridView)).EndInit();
 			((System.ComponentModel.ISupportInitialize) (this.gameDataGridView)).EndInit();
 			((System.ComponentModel.ISupportInitialize) (this.bookDataGridView)).EndInit();
@@ -280,6 +292,8 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			this.salesSplitContainer.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+
+		private System.Windows.Forms.Button syncButton;
 
 		private System.Windows.Forms.SplitContainer salesSplitContainer;
 

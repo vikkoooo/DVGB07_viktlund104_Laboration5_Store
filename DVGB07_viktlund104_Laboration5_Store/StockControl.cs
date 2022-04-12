@@ -11,12 +11,20 @@ namespace DVGB07_viktlund104_Laboration4_Store
 		private Game selectedGame;
 		private Movie selectedMovie;
 		private Dictionary<int, int> shipmentList; // Key is ID, value is quantity
+		
+		// Database reference
+		private WebReader db;
+		
+		// Reference to MainForm (which has references to the correct instances of SalesControl and StockControl
+		private MainForm mainForm;
 
 		// Constructor initializes our components and data
-		public StockControl(FileHandler db)
+		public StockControl(WebReader db, MainForm mainForm)
 		{
 			InitializeComponent();
 			shipmentList = new Dictionary<int, int>();
+			this.db = db;
+			this.mainForm = mainForm;
 
 			// Initialize our BindingSources to GridViews
 			bookSource = new BindingSource();
@@ -324,5 +332,18 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			shipmentListBox.Items.Clear();
 			shipmentList.Clear();
 		}
+
+		private void syncButton_Click(object sender, EventArgs e)
+		{
+			mainForm.UpdateStockControl();
+			mainForm.UpdateSalesControl();
+		}
+		
+		public void SyncStock()
+		{
+			db.Load();
+		}
+		
+
 	}
 }
