@@ -54,8 +54,8 @@ namespace DVGB07_viktlund104_Laboration4_Store
 					// Trying again
 					if (userResponse == DialogResult.Retry)
 					{
-						text = client.DownloadString("https://hex.cse.kau.se/~jonavest/csharp-api/");
-						document.LoadXml(text);
+						Load();
+						return false;
 					}
 					// Cancel, return
 					else if (userResponse == DialogResult.Cancel)
