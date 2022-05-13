@@ -81,9 +81,16 @@ namespace DVGB07_viktlund104_Laboration4_Store
 		}
 
 		// Syncing data in stock tab
-		public void SyncStock()
+		public bool SyncStock()
 		{
-			db.Load();
+			bool success = db.Load();
+
+			if (success)
+			{
+				return true;
+			}
+			
+			return false;
 		}
 
 		/*
@@ -340,8 +347,12 @@ namespace DVGB07_viktlund104_Laboration4_Store
 		// Request sync of data in both tabs
 		private void syncButton_Click(object sender, EventArgs e)
 		{
-			mainForm.UpdateStockControl();
-			mainForm.UpdateSalesControl();
+			bool success = mainForm.UpdateStockControl();
+
+			if (success)
+			{
+				mainForm.UpdateSalesControl();
+			}
 		}
 	}
 }

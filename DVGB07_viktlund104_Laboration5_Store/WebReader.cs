@@ -35,20 +35,33 @@ namespace DVGB07_viktlund104_Laboration4_Store
 		}
 
 		// Reads data from web and shows error messages if something goes wrong with the api
-		public void Load()
+		public bool Load()
 		{
 			// Make api call
 			try
 			{
-				var text = client.DownloadString("https://hex.cse.kau.se/~jonavest/csharp-api");
+				var text = client.DownloadString("https://hex.cse.kau.se/~jonavest/csharp-api/");
 				document = new XmlDocument();
 				document.LoadXml(text);
 
 				// response contains error body, means api failed
 				if (document.FirstChild.FirstChild.Name == "error")
 				{
-					MessageBox.Show(document.FirstChild.FirstChild.InnerText, "Error", MessageBoxButtons.OK,
+					// Ask user to try again or cancel
+					var userResponse = MessageBox.Show(document.FirstChild.FirstChild.InnerText, "Error", MessageBoxButtons.RetryCancel,
 						MessageBoxIcon.Error);
+					
+					// Trying again
+					if (userResponse == DialogResult.Retry)
+					{
+						text = client.DownloadString("https://hex.cse.kau.se/~jonavest/csharp-api/");
+						document.LoadXml(text);
+					}
+					// Cancel, return
+					else if (userResponse == DialogResult.Cancel)
+					{
+						return false;
+					}
 				}
 			}
 			// Our connection to api failed or something else
@@ -68,6 +81,8 @@ namespace DVGB07_viktlund104_Laboration4_Store
 			LoadGames();
 			LoadMovies();
 			LoadId();
+
+			return true;
 		}
 
 		// Loads only books

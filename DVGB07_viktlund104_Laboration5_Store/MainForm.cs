@@ -44,15 +44,29 @@ namespace DVGB07_viktlund104_Laboration4_Store
 		}
 
 		// Will resync data in the sales tab
-		public void UpdateSalesControl()
+		public bool UpdateSalesControl()
 		{
-			sales.SyncSales();
+			bool success = sales.SyncSales();
+			
+			if (success)
+			{
+				return true;
+			}
+
+			return false;
 		}
 
 		// Will resync data in the stock tab
-		public void UpdateStockControl()
+		public bool UpdateStockControl()
 		{
-			stock.SyncStock();
+			bool success = stock.SyncStock();
+
+			if (success)
+			{
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

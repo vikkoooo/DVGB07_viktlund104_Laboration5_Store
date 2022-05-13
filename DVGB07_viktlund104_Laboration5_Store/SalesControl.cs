@@ -210,21 +210,28 @@ namespace DVGB07_viktlund104_Laboration4_Store
 		}
 
 		// Syncing data in sales tab
-		public void SyncSales()
+		public bool SyncSales()
 		{
-			db.Load();
+			bool success = db.Load();
+			
+			if (success)
+			{
+				bookTempSource.Clear();
+				bookTempSource = AddBooksWithQuantity(bookSource);
+				bookDataGridView.DataSource = bookTempSource;
 
-			bookTempSource.Clear();
-			bookTempSource = AddBooksWithQuantity(bookSource);
-			bookDataGridView.DataSource = bookTempSource;
+				gameTempSource.Clear();
+				gameTempSource = AddGamesWithQuantity(gameSource);
+				gameDataGridView.DataSource = gameTempSource;
 
-			gameTempSource.Clear();
-			gameTempSource = AddGamesWithQuantity(gameSource);
-			gameDataGridView.DataSource = gameTempSource;
+				movieTempSource.Clear();
+				movieTempSource = AddMoviesWithQuantity(movieSource);
+				movieDataGridView.DataSource = movieTempSource;
+				
+				return true;
+			}
 
-			movieTempSource.Clear();
-			movieTempSource = AddMoviesWithQuantity(movieSource);
-			movieDataGridView.DataSource = movieTempSource;
+			return false;
 		}
 
 		/*
@@ -364,8 +371,12 @@ namespace DVGB07_viktlund104_Laboration4_Store
 		// Request sync of data in both tabs
 		private void syncButton_Click(object sender, EventArgs e)
 		{
-			mainForm.UpdateStockControl();
-			mainForm.UpdateSalesControl();
+			bool success = mainForm.UpdateSalesControl();
+
+			if (success)
+			{
+				mainForm.UpdateStockControl();
+			}
 		}
 	}
 }
